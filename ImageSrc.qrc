@@ -1,0 +1,5 @@
+<RCC>
+  <qresource prefix="LeftToRightImage">
+    <file>right_narrow.jpg</file>
+  </qresource>
+</RCC>
