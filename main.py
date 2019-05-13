@@ -10,13 +10,20 @@ from PyQt5.QtMultimedia import *
 import cv2
 
 
-class Camera(QtMultimedia.QCameraInfo):
+class Camera(QCamera):
+    available_cam = []
     def __init__(self):
         super().__init__()
 
     def getAvailableCameras(self):
-        available_cams = self.availableCameras()
-        return available_cams
+        # Return a string list
+        i = 0
+        available_dev = self.availableDevices()
+        # print("len=", len(available_dev))
+        while i < len(available_dev):
+            self.available_cam.append(self.deviceDescription(self.availableDevices()[i]))
+            i += 1
+        return self.available_cam
 
     def getSupportedResolutions(self, cam):
         res_list = cam.supportedResolutions()
@@ -31,27 +38,21 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     cam_index  = 0
     resolution = 0
-    cam_info = Camera()
-    cam_devs = cam_info.getAvailableCameras()
+    cam_obj = Camera()
 
     def __init__(self,parent=None):
         super(MainWindow, self).__init__(parent=parent)
         self.setupUi(self)
         self.slm = QStringListModel()
-        self.cam_list = []
 
-        # List the available camera devices
-        for cam in self.cam_devs:
-            self.cam_list.append(cam.description())
-        print(self.cam_list)
-        self.slm.setStringList(self.cam_list)
+        self.slm.setStringList(self.cam_obj.getAvailableCameras())
         self.listView_Devices.setModel(self.slm)
 
         # List the available Resulotions by the select camera
         self.listView_Devices.clicked.connect(self.clicked_device)
 
         # Open camera with the resolution selected
-        self.listView_resInfo.doubleClicked.connect(self.clicked_resolution)
+        self.listView_resInfo.doubleClicked.connect(self.openCamera)
 
     @QtCore.pyqtSlot(QtCore.QModelIndex)
     def clicked_device(self, index):
@@ -59,7 +60,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         res = []
         slm = QStringListModel()
 
-        cam_selected = self.cam_devs[index.row()]
+        cam_selected = QtMultimedia.QCameraInfo.availableCameras()[index.row()]
         cam_obj = QCamera(cam_selected)
         cam_obj.load()
         print(cam_obj.status())
@@ -77,7 +78,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.listView_resInfo.setModel(slm)
 
     @QtCore.pyqtSlot(QtCore.QModelIndex)
-    def clicked_resolution(self, index):
+    def openCamera(self, index):
         cap = cv2.VideoCapture(self.cam_index)
 
         while(cap.isOpened()):
@@ -100,3 +101,12 @@ if __name__=="__main__":
     main_form = MainWindow()
     main_form.show()
     sys.exit(app.exec_())
+
+# if __name__=="__main__":
+#     app = QtWidgets.QApplication(sys.argv)
+#
+#     c = QCamera()
+#
+#     print(c.availableDevices())
+#     print(c.deviceDescription(c.availableDevices()[0]))
+#     sys.exit(app.exec_())
