@@ -15,7 +15,7 @@ class Ui_MainWindow(object):
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.label_device = QtWidgets.QLabel(self.centralwidget)
-        self.label_device.setGeometry(QtCore.QRect(80, 20, 81, 41))
+        self.label_device.setGeometry(QtCore.QRect(70, 20, 171, 41))
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(14)
@@ -36,6 +36,15 @@ class Ui_MainWindow(object):
         self.listView_Devices = QtWidgets.QListView(self.centralwidget)
         self.listView_Devices.setGeometry(QtCore.QRect(10, 60, 231, 461))
         self.listView_Devices.setObjectName("listView_Devices")
+        self.label_Resolutions = QtWidgets.QLabel(self.centralwidget)
+        self.label_Resolutions.setGeometry(QtCore.QRect(420, 20, 191, 41))
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(14)
+        font.setBold(False)
+        font.setWeight(50)
+        self.label_Resolutions.setFont(font)
+        self.label_Resolutions.setObjectName("label_Resolutions")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 23))
@@ -52,5 +61,6 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label_device.setText(_translate("MainWindow", "Devices"))
+        self.label_Resolutions.setText(_translate("MainWindow", "Resolutions"))
 
 import ImageSrc_rc

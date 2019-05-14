@@ -23,20 +23,21 @@ class Camera(QCamera):
         while i < len(available_dev):
             self.available_cam.append(self.deviceDescription(self.availableDevices()[i]))
             i += 1
-        return self.available_cam
+        return self.available_cam, i
 
     def getSupportedResolutions(self, cam):
         res_list = cam.supportedResolutions()
         for i in res_list:
             print(i)
 
-    def getCameraInfo(self, cam_dev):
+    def getCameraCount(self, cam_dev):
         cam_id = 0
 
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     cam_index  = 0
+    cam_count  = 0
     resolution = 0
     cam_obj = Camera()
 
@@ -45,8 +46,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         self.slm = QStringListModel()
 
-        self.slm.setStringList(self.cam_obj.getAvailableCameras())
+        cam_list, self.cam_count = self.cam_obj.getAvailableCameras()
+        self.slm.setStringList(cam_list)
         self.listView_Devices.setModel(self.slm)
+        self.label_device.setText("Devices("+str(self.cam_count)+")")
 
         # List the available Resulotions by the select camera
         self.listView_Devices.clicked.connect(self.clicked_device)
@@ -54,9 +57,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # Open camera with the resolution selected
         self.listView_resInfo.doubleClicked.connect(self.openCamera)
 
+
     @QtCore.pyqtSlot(QtCore.QModelIndex)
     def clicked_device(self, index):
         self.cam_index = index.row()
+        count = 0
         res = []
         slm = QStringListModel()
 
@@ -66,16 +71,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         print(cam_obj.status())
         if cam_obj.status() == 4:
             print("The camera is loaded and ready to be configured.")
-        # img_capture = QCameraImageCapture(cam_obj)
-        # resolutions = img_capture.supportedResolutions()
         resolutions = cam_obj.supportedViewfinderResolutions()
-        print(resolutions)
-        # print(len(resolutions[0]))
         for i in resolutions:
-            print(i.width(), "*", i.height())
+            count += 1
             res.append(str(i.width())+"*"+str(i.height()))
             slm.setStringList(res)
             self.listView_resInfo.setModel(slm)
+        self.label_Resolutions.setText("Resolutions("+str(count)+")")
 
     @QtCore.pyqtSlot(QtCore.QModelIndex)
     def openCamera(self, index):
@@ -96,11 +98,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
 
 
+
+
 if __name__=="__main__":
     app = QtWidgets.QApplication(sys.argv)
     main_form = MainWindow()
     main_form.show()
-    sys.exit(app.exec_())
+    sys.exit(app.exec())
 
 # if __name__=="__main__":
 #     app = QtWidgets.QApplication(sys.argv)

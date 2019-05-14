@@ -17,9 +17,9 @@
    <widget class="QLabel" name="label_device">
     <property name="geometry">
      <rect>
-      <x>80</x>
+      <x>70</x>
       <y>20</y>
-      <width>81</width>
+      <width>171</width>
       <height>41</height>
      </rect>
     </property>
@@ -75,6 +75,27 @@
       <width>231</width>
       <height>461</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_Resolutions">
+    <property name="geometry">
+     <rect>
+      <x>420</x>
+      <y>20</y>
+      <width>191</width>
+      <height>41</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Arial</family>
+      <pointsize>14</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Resolutions</string>
     </property>
    </widget>
   </widget>
