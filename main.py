@@ -12,6 +12,7 @@ import cv2
 
 class Camera(QCamera):
     available_cam = []
+
     def __init__(self):
         super().__init__()
 
@@ -38,7 +39,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     cam_index  = 0
     cam_count  = 0
-    resolution = 0
+    resolution = QtCore.QSize(0,0)
     cam_obj = Camera()
 
     def __init__(self,parent=None):
@@ -55,6 +56,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.listView_Devices.clicked.connect(self.clicked_device)
 
         # Open camera with the resolution selected
+        self.listView_resInfo.clicked.connect(self.setCameraResolution)
         self.listView_resInfo.doubleClicked.connect(self.openCamera)
 
 
@@ -74,10 +76,22 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         resolutions = cam_obj.supportedViewfinderResolutions()
         for i in resolutions:
             count += 1
+            self.resolution.setWidth(i.width())
+            self.resolution.setHeight(i.height())
             res.append(str(i.width())+"*"+str(i.height()))
             slm.setStringList(res)
-            self.listView_resInfo.setModel(slm)
+        self.listView_resInfo.setModel(slm)
         self.label_Resolutions.setText("Resolutions("+str(count)+")")
+
+
+    @QtCore.pyqtSlot(QtCore.QModelIndex)
+    def setCameraResolution(self, index):
+        viewfinderSettings = QtMultimedia.QCameraViewfinderSettings();
+        viewfinderSettings.setResolution(self.resolution);
+        # viewfinderSettings.setMinimumFrameRate(15.0);
+        # viewfinderSettings.setMaximumFrameRate(30.0);
+        self.cam_obj.setViewfinderSettings(viewfinderSettings)
+
 
     @QtCore.pyqtSlot(QtCore.QModelIndex)
     def openCamera(self, index):
