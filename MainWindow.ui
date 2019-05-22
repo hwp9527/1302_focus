@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>571</height>
+    <width>590</width>
+    <height>575</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <rect>
       <x>70</x>
       <y>20</y>
-      <width>171</width>
+      <width>131</width>
       <height>41</height>
      </rect>
     </property>
@@ -38,9 +38,9 @@
    <widget class="QListView" name="listView_resInfo">
     <property name="geometry">
      <rect>
-      <x>360</x>
+      <x>350</x>
       <y>60</y>
-      <width>256</width>
+      <width>161</width>
       <height>461</height>
      </rect>
     </property>
@@ -80,9 +80,9 @@
    <widget class="QLabel" name="label_Resolutions">
     <property name="geometry">
      <rect>
-      <x>420</x>
+      <x>370</x>
       <y>20</y>
-      <width>191</width>
+      <width>131</width>
       <height>41</height>
      </rect>
     </property>
@@ -104,7 +104,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
+     <width>590</width>
      <height>23</height>
     </rect>
    </property>

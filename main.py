@@ -7,7 +7,9 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtMultimedia import *
+import SignalToNoise
 import cv2
+
 
 
 class Camera(QCamera):
@@ -98,10 +100,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         cap = cv2.VideoCapture(self.cam_index)
 
         while(cap.isOpened()):
-            ret, frame = cap.read()
-            if ret == True:
-                gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-                cv2.imshow('frame', gray)
+            ret1, frame1 = cap.read()
+            ret2, frame2 = cap.read()
+            psnr = SignalToNoise.compare_psnr(frame1, frame2)
+            print(psnr)
+            if (ret1 & ret2) == True:
+                # gray = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
+                cv2.imshow('frame1', frame1)
             else:
                 break
 
