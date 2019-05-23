@@ -93,22 +93,37 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # viewfinderSettings.setMinimumFrameRate(15.0);
         # viewfinderSettings.setMaximumFrameRate(30.0);
         self.cam_obj.setViewfinderSettings(viewfinderSettings)
+        # print("index:", index)
 
 
     @QtCore.pyqtSlot(QtCore.QModelIndex)
     def openCamera(self, index):
         cap = cv2.VideoCapture(self.cam_index)
 
-        while(cap.isOpened()):
-            ret1, frame1 = cap.read()
-            ret2, frame2 = cap.read()
-            psnr = SignalToNoise.compare_psnr(frame1, frame2)
-            print(psnr)
-            if (ret1 & ret2) == True:
-                # gray = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
-                cv2.imshow('frame1', frame1)
-            else:
-                break
+        for i in range(1,10,1):
+            tmp, frame_base = cap.read()
+
+        img_size  = frame_base.shape
+        img_width = img_size[1]
+        img_height= img_size[0]
+        print(img_width, img_height)
+        mid = img_width / 2
+        img_left = frame_base[0:img_height, 0:mid]
+        cv2.namedWindow("Left_image",cv2.WINDOW_AUTOSIZE)
+        cv2.resizeWindow("left_image", mid, img_height)
+        cv2.imshow("Left Eye", img_left)
+
+
+        # while(cap.isOpened()):
+        while(1):
+            # ret, frame_test = cap.read()
+            # psnr = SignalToNoise.compare_psnr(frame_base, frame_test)
+            # # print(psnr)
+            # if (ret) == True:
+            #     # gray = cv2.cvtColor(frame1, cv2.COLOR_BGR2GRAY)
+            #     cv2.imshow('video', frame_test)
+            # else:
+            #     break
 
             if cv2.waitKey(1) & 0xFF == 27:
                 cap.release()

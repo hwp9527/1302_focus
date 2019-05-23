@@ -131,4 +131,6 @@ def compare_psnr(im_true, im_test, data_range=None):
     im_true, im_test = _as_floats(im_true, im_test)
 
     err = compare_mse(im_true, im_test)
+    if err < 0.000001:
+        return 100
     return 10 * np.log10((data_range ** 2) / err)
