@@ -43,6 +43,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     cam_count  = 0
     resolution = QtCore.QSize(0,0)
     cam_obj = Camera()
+    dual_cam_flag = False
 
     def __init__(self,parent=None):
         super(MainWindow, self).__init__(parent=parent)
@@ -57,9 +58,20 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # List the available Resulotions by the select camera
         self.listView_Devices.clicked.connect(self.clicked_device)
 
+        # Is dual camera checked?
+        self.checkBox_IsDualCam.stateChanged.connect(self.checkBox_DualCamChange)
+
         # Open camera with the resolution selected
         self.listView_resInfo.clicked.connect(self.setCameraResolution)
         self.listView_resInfo.doubleClicked.connect(self.openCamera)
+
+    def checkBox_DualCamChange(self):
+        if self.checkBox_IsDualCam.checkState() == Qt.Checked:
+            self.dual_cam_flag = True
+            print("Is dual Camera? = ", self.dual_cam_flag)
+        else:
+            self.dual_cam_flag = False
+            print("Is dual Camera? = ", self.dual_cam_flag)
 
 
     @QtCore.pyqtSlot(QtCore.QModelIndex)
@@ -107,7 +119,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         img_width = img_size[1]
         img_height= img_size[0]
         print(img_width, img_height)
-        mid = img_width / 2
+        mid = int(img_width / 2)
         img_left = frame_base[0:img_height, 0:mid]
         cv2.namedWindow("Left_image",cv2.WINDOW_AUTOSIZE)
         cv2.resizeWindow("left_image", mid, img_height)

@@ -17,9 +17,9 @@
    <widget class="QLabel" name="label_device">
     <property name="geometry">
      <rect>
-      <x>70</x>
+      <x>10</x>
       <y>20</y>
-      <width>131</width>
+      <width>221</width>
       <height>41</height>
      </rect>
     </property>
@@ -31,8 +31,14 @@
       <bold>false</bold>
      </font>
     </property>
+    <property name="layoutDirection">
+     <enum>Qt::LeftToRight</enum>
+    </property>
     <property name="text">
      <string>Devices</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
    <widget class="QListView" name="listView_resInfo">
@@ -40,7 +46,7 @@
      <rect>
       <x>350</x>
       <y>60</y>
-      <width>161</width>
+      <width>141</width>
       <height>461</height>
      </rect>
     </property>
@@ -80,9 +86,9 @@
    <widget class="QLabel" name="label_Resolutions">
     <property name="geometry">
      <rect>
-      <x>370</x>
+      <x>350</x>
       <y>20</y>
-      <width>131</width>
+      <width>141</width>
       <height>41</height>
      </rect>
     </property>
@@ -97,12 +103,15 @@
     <property name="text">
      <string>Resolutions</string>
     </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
    <widget class="QCheckBox" name="checkBox_IsDualCam">
     <property name="geometry">
      <rect>
-      <x>550</x>
-      <y>20</y>
+      <x>530</x>
+      <y>60</y>
       <width>131</width>
       <height>31</height>
      </rect>
@@ -110,7 +119,12 @@
     <property name="font">
      <font>
       <family>Adobe Arabic</family>
-      <pointsize>18</pointsize>
+      <pointsize>13</pointsize>
+      <weight>50</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+      <underline>false</underline>
+      <strikeout>false</strikeout>
      </font>
     </property>
     <property name="text">
