@@ -112,23 +112,44 @@
      <rect>
       <x>530</x>
       <y>60</y>
-      <width>131</width>
+      <width>161</width>
       <height>31</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <family>Adobe Arabic</family>
-      <pointsize>13</pointsize>
-      <weight>50</weight>
+      <family>System</family>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
       <italic>false</italic>
-      <bold>false</bold>
+      <bold>true</bold>
       <underline>false</underline>
       <strikeout>false</strikeout>
      </font>
     </property>
     <property name="text">
      <string>Dual Camera</string>
+    </property>
+   </widget>
+   <widget class="QCheckBox" name="checkBox_CamFocus">
+    <property name="geometry">
+     <rect>
+      <x>530</x>
+      <y>100</y>
+      <width>161</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>System</family>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="text">
+     <string>Camera Focus</string>
     </property>
    </widget>
   </widget>
