@@ -12,7 +12,7 @@ import cv2
 
 
 
-class Camera(QCamera):
+class Camera(QtMultimedia.QCamera):
     available_cam = []
 
     def __init__(self):
@@ -66,8 +66,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.checkBox_CamFocus.stateChanged.connect(self.checkBox_CamFocusChange)
 
         # Open camera with the resolution selected
-        self.listView_resInfo.clicked.connect(self.setCameraResolution)
-        self.listView_resInfo.doubleClicked.connect(self.openCamera)
+        # self.listWidget_resInfo.itemClicked.connect(self.setCameraResolution)
+        self.listWidget_resInfo.itemClicked.connect(self.on_listWidget_resInfo_itemClicked)
+        self.listWidget_resInfo.doubleClicked.connect(self.openCamera)
 
     def checkBox_DualCamChange(self):
         if self.checkBox_IsDualCam.checkState() == Qt.Checked:
@@ -88,33 +89,34 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     @QtCore.pyqtSlot(QtCore.QModelIndex)
     def clicked_device(self, index):
         self.cam_index = index.row()
-        count = 0
-        slm = QStringListModel()
 
         cam_selected = QtMultimedia.QCameraInfo.availableCameras()[index.row()]
-        cam_obj = QCamera(cam_selected)
+        cam_obj = QtMultimedia.QCamera(cam_selected)
         cam_obj.load()
         print(cam_obj.status())
         if cam_obj.status() == 4:
             print("The camera is loaded and ready to be configured.")
-        resolutions = cam_obj.supportedViewfinderResolutions()
-        for i in resolutions:
-            count += 1
-            self.res_list.append(str(i.width())+"*"+str(i.height()))
-            slm.setStringList(self.res_list)
-        self.listView_resInfo.setModel(slm)
-        self.label_Resolutions.setText("Resolutions("+str(count)+")")
+
+        # Clear the items
+        self.listWidget_resInfo.clear()
+
+        # Add items to listview
+        res= cam_obj.supportedViewfinderResolutions()
+        for i in res:
+            self.listWidget_resInfo.addItem(QListWidgetItem(str(i.width())+" * "+str(i.height())))
+
+        self.label_Resolutions.setText("Resolutions("+str(self.listWidget_resInfo.count())+")")
 
 
-    @QtCore.pyqtSlot(QtCore.QModelIndex)
-    def setCameraResolution(self, index):
-        item_value = self.res_list[index.row()]
+    @QtCore.pyqtSlot(QtWidgets.QListWidgetItem)
+    def on_listWidget_resInfo_itemClicked(self, item):
+        # print(item.text())
+        item_value = item.text()
         self.resolution.setWidth(int(item_value.split('*')[0]))
         self.resolution.setHeight(int(item_value.split('*')[1]))
         viewfinderSettings = QtMultimedia.QCameraViewfinderSettings()
         viewfinderSettings.setResolution(self.resolution)
-        # viewfinderSettings.setMinimumFrameRate(15.0);
-        # viewfinderSettings.setMaximumFrameRate(30.0);
+        viewfinderSettings.setMaximumFrameRate(30.0);
         self.cam_obj.setViewfinderSettings(viewfinderSettings)
         print("resolution:", self.resolution.width(), self.resolution.height())
 
@@ -148,7 +150,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             # else:
             #     break
 
-            if cv2.waitKey(1) & 0xFF == 27:
+            if cv2.waitKey(1) & 0xFF == 27: #ESC
                 cap.release()
                 cv2.destroyAllWindows()
                 break

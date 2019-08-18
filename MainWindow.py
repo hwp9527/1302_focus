@@ -2,11 +2,13 @@
 
 # Form implementation generated from reading ui file 'MainWindow.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -25,11 +27,12 @@ class Ui_MainWindow(object):
         self.label_device.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.label_device.setAlignment(QtCore.Qt.AlignCenter)
         self.label_device.setObjectName("label_device")
-        self.listView_resInfo = QtWidgets.QListView(self.centralwidget)
-        self.listView_resInfo.setGeometry(QtCore.QRect(350, 60, 141, 461))
-        self.listView_resInfo.setLineWidth(0)
-        self.listView_resInfo.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        self.listView_resInfo.setObjectName("listView_resInfo")
+        self.listWidget_resInfo = QtWidgets.QListWidget(self.centralwidget)
+        self.listWidget_resInfo.setGeometry(QtCore.QRect(350, 60, 141, 461))
+        self.listWidget_resInfo.setLineWidth(0)
+        self.listWidget_resInfo.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.listWidget_resInfo.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectItems)
+        self.listWidget_resInfo.setObjectName("listWidget_resInfo")
         self.pushButton_refles = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_refles.setGeometry(QtCore.QRect(240, 260, 101, 61))
         self.pushButton_refles.setStyleSheet("border-image: url(:/LeftToRightImage/right_narrow.jpg);")
@@ -88,5 +91,4 @@ class Ui_MainWindow(object):
         self.label_Resolutions.setText(_translate("MainWindow", "Resolutions"))
         self.checkBox_IsDualCam.setText(_translate("MainWindow", "Dual Camera"))
         self.checkBox_CamFocus.setText(_translate("MainWindow", "Camera Focus"))
-
 import ImageSrc_rc
